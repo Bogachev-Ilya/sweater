@@ -1,5 +1,6 @@
 package com.example.sweater.controller;
 
+import com.example.sweater.domain.Role;
 import com.example.sweater.domain.User;
 import com.example.sweater.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,15 @@ public class RegistrationController {
     public String addUser(User user, Map<String, Object> model){
         User userFromDb = userRepo.findByUsername(user.getUsername());
 
-        if(userFromDb!=null){
+        if(userFromDb !=null){
             model.put("message", "User exists!");
             return "registration";
         }
 
         user.setActive(true);
-        user.setRoles(Collections.singleton());
+        user.setRoles(Collections.singleton(Role.USER));
+        userRepo.save(user);
+        
         return "redirect:/login";
     }
 }
