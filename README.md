@@ -1,2 +1,1 @@
-# Sweater is a clone of Twitter app.
-
+# Sweater communicate people
