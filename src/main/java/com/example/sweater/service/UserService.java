@@ -3,7 +3,6 @@ package com.example.sweater.service;
 import com.example.sweater.domain.Role;
 import com.example.sweater.domain.User;
 import com.example.sweater.repos.UserRepo;
-import freemarker.template.utility.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,8 +35,8 @@ public class UserService implements UserDetailsService {
 
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
-        userRepo.save(user);
         user.setActivationCode(UUID.randomUUID().toString());
+        userRepo.save(user);
 
         if (!StringUtils.isEmpty(user.getEmail())){
             String message = String.format(
@@ -53,7 +52,7 @@ public class UserService implements UserDetailsService {
 
     public boolean activateUser(String code) {
         User user = userRepo.findByActivationCode(code);
-        if (user!=null){
+        if (user==null){
             return false;
         }
 
